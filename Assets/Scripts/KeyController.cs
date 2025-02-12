@@ -2,7 +2,7 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
-public class CollectionController : MonoBehaviour
+public class KeyController : MonoBehaviour
 {
     void Start() { }
 
@@ -10,7 +10,7 @@ public class CollectionController : MonoBehaviour
 
     private void OnTriggerEnter(Collider collider)
     {
-        PlayerController1.collectedCoins++;
+        PlayerController1.collectedKeys++;
         Destroy(gameObject);
     }
 }

@@ -46,6 +46,9 @@ public class PlayerController1 : MonoBehaviour
         playerInput = new Vector3(horizontalMove, 0, verticalMove);
         playerInput = Vector3.ClampMagnitude(playerInput, 1);
 
+        // "Des-suavizar" el movimiento del jugador
+        if (playerInput.magnitude > 1) playerInput.Normalize();
+
         camDirection();
 
         movePlayer = playerInput.x * camRight + playerInput.z * camForward;
