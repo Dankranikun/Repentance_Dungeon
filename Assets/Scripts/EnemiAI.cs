@@ -7,7 +7,7 @@ public class EnemiAI : MonoBehaviour
 {
     public float health;
     public NavMeshAgent agent;
-    public Transform player;
+    public Transform Player;
     public LayerMask whatIsGround, whatIsPlayer;
 
     // Patrolling
@@ -25,7 +25,7 @@ public class EnemiAI : MonoBehaviour
 
     private void Awake()
     {
-        player = GameObject.Find("Player").transform;
+        Player = GameObject.Find("Player").transform;
         agent = GetComponent<NavMeshAgent>();
     }
 
@@ -67,14 +67,14 @@ public class EnemiAI : MonoBehaviour
     }
     private void ChasePlayer()
     {
-        agent.SetDestination(player.position);
+        agent.SetDestination(Player.position);
     }
     private void AttackPlayer()
     {
         // Make sure the enemy is not moving
         agent.SetDestination(transform.position);
 
-        transform.LookAt(player);
+        transform.LookAt(Player);
 
         if (!alreadyAttacked)
         {

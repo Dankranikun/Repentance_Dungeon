@@ -171,7 +171,7 @@ Camera:
     height: 1
   near clip plane: 0.3
   far clip plane: 1000
-  field of view: 22
+  field of view: 25.5
   orthographic: 0
   orthographic size: 5
   m_Depth: -1
@@ -316,12 +316,18 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -6986191918802728969, guid: 97d6d133a9e80ad468a2dcbafc812f23, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1.209
+      objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 97d6d133a9e80ad468a2dcbafc812f23, type: 3}
       propertyPath: m_Name
       value: Mage
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 4034608614429032291, guid: 97d6d133a9e80ad468a2dcbafc812f23, type: 3}
+    - {fileID: 2677596514934467036, guid: 97d6d133a9e80ad468a2dcbafc812f23, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 97d6d133a9e80ad468a2dcbafc812f23, type: 3}
@@ -385,12 +391,15 @@ MonoBehaviour:
   horizontalMove: 0
   verticalMove: 0
   playerInput: {x: 0, y: 0, z: 0}
-  player: {fileID: 875720421}
+  Player: {fileID: 0}
   playerSpeed: 8
   gravity: 9.8
   fallVelocity: 0
   mainCamera: {fileID: 221394618}
   collectedPickUps: {fileID: 1718236184}
+  playerMovSpeed: 8
+  playerAttSpeed: 5
+  playerAttRange: 5
 --- !u!143 &875720421
 CharacterController:
   m_ObjectHideFlags: 0
@@ -776,6 +785,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 60d8e11a7af48bf4f87c25db8f93e47d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  controls: {fileID: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

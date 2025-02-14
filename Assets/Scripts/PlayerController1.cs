@@ -12,7 +12,7 @@ public class PlayerController1 : MonoBehaviour
     public Vector3 playerInput;
 
     // Control del jugador (Player Control)
-    public CharacterController player;
+    public CharacterController Player;
     public float playerSpeed;
     private Vector3 movePlayer;
     public float gravity = 9.8f;
@@ -29,13 +29,14 @@ public class PlayerController1 : MonoBehaviour
     public static int collectedKeys = 0;
     public static int collectedBombs = 0;
 
-    // Animaciones del personaje
-
-
+    // Estadísticas del jugador
+    public float playerMovSpeed = 8f;
+    public float playerAttSpeed = 5f;
+    public float playerAttRange = 5f;
 
     void Start()
     {
-        player = GetComponent<CharacterController>();
+        Player = GetComponent<CharacterController>();
     }
 
     void Update()
@@ -55,11 +56,11 @@ public class PlayerController1 : MonoBehaviour
 
         movePlayer = movePlayer * playerSpeed;
 
-        player.transform.LookAt(player.transform.position + movePlayer);
+        Player.transform.LookAt(Player.transform.position + movePlayer);
 
         SetGravity();
 
-        player.Move(movePlayer * Time.deltaTime);
+        Player.Move(movePlayer * Time.deltaTime);
 
         if (collectedPickUps != null)
         {
@@ -80,7 +81,7 @@ public class PlayerController1 : MonoBehaviour
 
     void SetGravity()
     {
-        if (player.isGrounded)
+        if (Player.isGrounded)
         {
             fallVelocity = -gravity * Time.deltaTime;
             movePlayer.y = fallVelocity;
