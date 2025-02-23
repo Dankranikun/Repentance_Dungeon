@@ -36,6 +36,7 @@ public class PlayerController1 : MonoBehaviour
     public float playerMovSpeed = 8f;
     public float playerAttSpeed = 5f;
     public float playerAttRange = 5f;
+    public int healthPoints = 3;
 
     void Start()
     {
