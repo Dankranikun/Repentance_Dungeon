@@ -34,13 +34,40 @@ public class PlayerController1 : MonoBehaviour
 
     // Estadísticas del jugador
     public float playerMovSpeed = 8f;
-    public float playerAttSpeed = 5f;
-    public float playerAttRange = 5f;
-    public int healthPoints = 3;
+    //public float playerAttSpeed = 5f;
+    //public float playerAttRange = 5f;
 
     void Start()
     {
         Player = GetComponent<CharacterController>();
+
+        UpdateInventoryUI();
+    }
+
+    public static void AddCoin()
+    {
+        collectedCoins++;
+        UpdateInventoryUI();
+    }
+
+    public static void AddKey()
+    {
+        collectedKeys++;
+        UpdateInventoryUI();
+    }
+
+    public static void AddBomb()
+    {
+        collectedBombs++;
+        UpdateInventoryUI();
+    }
+
+    private static void UpdateInventoryUI()
+    {
+        if (UIManager.instance != null)
+        {
+            UIManager.instance.UpdateUI(collectedCoins, collectedKeys, collectedBombs);
+        }
     }
 
     void Update()

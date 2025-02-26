@@ -7,6 +7,10 @@ TagManager:
   - Enemy
   - MapsFloor
   - TakeDamage
+  - Bomb
+  - Coin
+  - Key
+  - Heart
   layers:
   - Default
   - TransparentFX

@@ -4,13 +4,12 @@ using System.Collections.Generic;
 
 public class CoinController : MonoBehaviour
 {
-    void Start() { }
-
-    void Update() { }
-
     private void OnTriggerEnter(Collider collider)
     {
-        PlayerController1.collectedCoins++;
-        Destroy(gameObject);
+        if (collider.CompareTag("Player"))
+        {
+            PlayerController1.AddCoin();
+            Destroy(gameObject);
+        }
     }
 }
