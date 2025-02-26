@@ -96,4 +96,10 @@ public class PlayerController1 : MonoBehaviour
             movePlayer.y = fallVelocity;
         }
     }
+
+    public void SetCamera(Camera cam)
+    {
+        mainCamera = cam;
+        Debug.Log("Cámara asignada correctamente al jugador");
+    }
 }

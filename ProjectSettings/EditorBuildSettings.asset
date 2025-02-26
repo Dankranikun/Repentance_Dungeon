@@ -12,11 +12,14 @@ EditorBuildSettings:
     path: Assets/Scenes/Menu/MainMenu.unity
     guid: c89b9670013d57348805d5b8624f2119
   - enabled: 1
-    path: Assets/Scenes/Character/PlayerMage.unity
-    guid: 4735dbd3d6512154787214d7a6235b55
-  - enabled: 1
-    path: Assets/Scenes/Rooms/4DoorEmptyRoom.unity
+    path: Assets/Scenes/Rooms/room0.unity
     guid: 7e0b37ae1d664014bbae83c23d792b69
+  - enabled: 1
+    path: Assets/Scenes/Menu/GameManagerScene.unity
+    guid: 82ed23e234da4a44b9e12222602127ed
+  - enabled: 1
+    path: Assets/Scenes/Rooms/room1.unity
+    guid: 3bd09dc89a973ff4f8be62608694f6f8
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   m_UseUCBPForAssetBundles: 0
