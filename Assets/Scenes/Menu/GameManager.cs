@@ -68,4 +68,5 @@ public class GameManager : MonoBehaviour
         Debug.Log("✅ Player registrado en GameManager.");
     }
 
+
 }

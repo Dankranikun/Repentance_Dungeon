@@ -131,6 +131,6 @@ public class PlayerController1 : MonoBehaviour
     public void SetCamera(Camera cam)
     {
         mainCamera = cam;
-        Debug.Log("Cámara asignada correctamente al jugador");
+        Debug.Log("Cámara asignada al jugador");
     }
 }

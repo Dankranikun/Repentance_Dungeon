@@ -65,18 +65,23 @@ public class AIEnemy : MonoBehaviour
         animator.SetBool("isAttacking", isAttacking);
     }
 
-    void OnCollisionEnter(Collision collision)
+    void OnTriggerEnter(Collider other)
     {
-        if (collision.gameObject.tag == "PlayerDamage")
+        if (other.CompareTag("Player")) // Asegurar que estamos detectando al jugador
         {
+            PlayerHealth playerHealth = other.GetComponent<PlayerHealth>(); // Buscar el PlayerHealth en el jugador
+
             if (playerHealth != null)
             {
                 playerHealth.TakeDamage(damageDeal);
+                Debug.Log("⚔ Jugador dañado: -" + damageDeal);
             }
             else
             {
-                Debug.LogWarning("⚠ PlayerHealth no está asignado aún.");
+                Debug.LogWarning("⚠ No se encontró PlayerHealth en " + other.name);
             }
         }
     }
+
+
 }
