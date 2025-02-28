@@ -42,6 +42,10 @@ public class PlayerController1 : MonoBehaviour
         Player = GetComponent<CharacterController>();
 
         UpdateInventoryUI();
+        if (GameManager.Instance != null)
+        {
+            GameManager.Instance.RegisterPlayer(gameObject);
+        }
     }
 
     public static void AddCoin()

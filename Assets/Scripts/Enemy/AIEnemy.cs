@@ -1,50 +1,51 @@
 using UnityEngine;
 using UnityEngine.AI;
+using System.Collections; // Necesario para usar corrutinas
 
 public class AIEnemy : MonoBehaviour
 {
     public NavMeshAgent navMeshAgent;
     public Animator animator;
-    public float attackRange = 2.0f; // Distancia a la que el enemigo ataca
+    public float attackRange = 2.0f;
 
-    private Transform player; // Referencia al jugador
-    public PlayerHealth playerHealth; //Reference to the player health in another script
+    private Transform player;
+    public PlayerHealth playerHealth; // Referencia al PlayerHealth
 
     public bool isWalking = false;
     public bool isAttacking = false;
-
     public int damageDeal = 1;
 
     void Start()
     {
-        // Obtener referencia del Animator
         animator = GetComponent<Animator>();
-        if (animator == null)
+
+        // Iniciar la corrutina para esperar al jugador
+        StartCoroutine(WaitForPlayer());
+    }
+
+    IEnumerator WaitForPlayer()
+    {
+        // Esperar hasta que GameManager tenga al Player
+        while (GameManager.Instance == null || GameManager.Instance.player == null)
         {
-            Debug.LogError("No se encontró un Animator en " + gameObject.name);
+            Debug.LogWarning("⏳ Esperando a que el jugador se genere...");
+            yield return null; // Esperar un frame
         }
 
-        // Buscar al jugador
-        if (PlayerAggro.Instance != null)
+        // Una vez que el jugador está disponible, asignarlo
+        player = GameManager.Instance.player.transform;
+        playerHealth = GameManager.Instance.player.GetComponent<PlayerHealth>();
+
+        if (playerHealth == null)
         {
-            player = PlayerAggro.Instance.transform;
+            Debug.LogError("❌ El jugador no tiene un componente PlayerHealth.");
         }
         else
         {
-            Debug.LogWarning("PlayerAggro no encontrado, buscando manualmente al jugador...");
-            GameObject playerObject = GameObject.FindWithTag("Player"); // Buscar por tag
-            if (playerObject != null)
-            {
-                player = playerObject.transform;
-                Debug.Log("Jugador encontrado manualmente.");
-            }
-            else
-            {
-                Debug.LogError("No se encontró ningún objeto con el tag 'Player'.");
-            }
+            Debug.Log("✅ Jugador asignado correctamente.");
         }
 
-        // Asegurar que el NavMeshAgent tiene un destino válido
+        // Asegurar que el NavMeshAgent tenga un destino válido
         if (player != null)
         {
             navMeshAgent.SetDestination(player.position);
@@ -53,16 +54,13 @@ public class AIEnemy : MonoBehaviour
 
     void Update()
     {
-        if (player == null) return; // Ahora player siempre debería existir
+        if (player == null) return;
 
-        // Asegurar que el NavMeshAgent se mueva correctamente
         navMeshAgent.SetDestination(player.position);
 
-        // Verificar si el enemigo se está moviendo y actualizar la variable de clase
         isWalking = navMeshAgent.velocity.magnitude > 0.1f;
         animator.SetBool("isWalking", isWalking);
 
-        // Verificar si el enemigo está cerca para atacar y actualizar la variable de clase
         isAttacking = Vector3.Distance(transform.position, player.position) <= attackRange;
         animator.SetBool("isAttacking", isAttacking);
     }
@@ -71,7 +69,14 @@ public class AIEnemy : MonoBehaviour
     {
         if (collision.gameObject.tag == "PlayerDamage")
         {
-            playerHealth.TakeDamage(damageDeal);
+            if (playerHealth != null)
+            {
+                playerHealth.TakeDamage(damageDeal);
+            }
+            else
+            {
+                Debug.LogWarning("⚠ PlayerHealth no está asignado aún.");
+            }
         }
     }
 }

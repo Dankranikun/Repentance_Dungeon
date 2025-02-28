@@ -228,7 +228,7 @@ MonoBehaviour:
   emptyHeart: {fileID: 21300000, guid: 047f0b47d010d004395c47465a7f7584, type: 2}
   fullHeart: {fileID: 21300000, guid: 904686e1480b1ca49b0262f0b1f79ef8, type: 2}
   hearts: []
-  playerHealth: {fileID: 0}
+  playerHealth: {fileID: 4419906455337311704}
 --- !u!114 &4419906455337311704
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -25,6 +25,9 @@ public class HealthDisplay : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        health = playerHealth.health;
+        maxHealth = playerHealth.maxHealth;
+
         for (int i = 0; i < hearts.Length; i++)
         {
             if (i < health)
