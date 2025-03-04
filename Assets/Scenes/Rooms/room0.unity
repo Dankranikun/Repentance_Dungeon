@@ -1695,7 +1695,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8720582282186532921, guid: 1e3d88024555e8b4e84ad40034fa85f3, type: 3}
       propertyPath: shootRate
-      value: 5
+      value: 0.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8720582282186532921, guid: 1e3d88024555e8b4e84ad40034fa85f3, type: 3}
+      propertyPath: shootForce
+      value: 50
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
