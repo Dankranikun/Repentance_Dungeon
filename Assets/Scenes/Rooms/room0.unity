@@ -243,6 +243,8 @@ MonoBehaviour:
   possibleRooms:
   - room1
   - room2
+  - room3
+  - room4
   spawnPosition: {x: 16.5, y: 1.2, z: 0}
 --- !u!1 &263984129
 GameObject:
@@ -368,6 +370,8 @@ MonoBehaviour:
   possibleRooms:
   - room1
   - room2
+  - room3
+  - room4
   spawnPosition: {x: 0, y: 1.2, z: -8}
 --- !u!1 &354515858
 GameObject:
@@ -1060,6 +1064,8 @@ MonoBehaviour:
   possibleRooms:
   - room1
   - room2
+  - room3
+  - room4
   spawnPosition: {x: 0, y: 1.2, z: 8}
 --- !u!1 &987725219
 GameObject:
@@ -1833,6 +1839,8 @@ MonoBehaviour:
   possibleRooms:
   - room1
   - room2
+  - room3
+  - room4
   spawnPosition: {x: -16.5, y: 1.2, z: 0}
 --- !u!1 &1919575811
 GameObject:

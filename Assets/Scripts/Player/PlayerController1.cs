@@ -34,12 +34,25 @@ public class PlayerController1 : MonoBehaviour
 
 	// Estadísticas del jugador
 	public float playerMovSpeed = 8f;
-	//public float playerAttSpeed = 5f;
-	//public float playerAttRange = 5f;
 
 	void Start()
 	{
 		Player = GetComponent<CharacterController>();
+
+		// Si hay datos guardados en PlayerPrefs, usa esa posición
+		if (PlayerPrefs.HasKey("SpawnX"))
+		{
+			float x = PlayerPrefs.GetFloat("SpawnX");
+			float y = PlayerPrefs.GetFloat("SpawnY");
+			float z = PlayerPrefs.GetFloat("SpawnZ");
+			Player.GetComponent<Rigidbody>().MovePosition(new Vector3(x, y, z));
+
+		}
+		else
+		{
+			// Si no hay datos guardados, inicia en el centro de la sala
+			transform.position = new Vector3(0, 1.171f, 0);
+		}
 
 		UpdateInventoryUI();
 		if (GameManager.Instance != null)
@@ -48,65 +61,31 @@ public class PlayerController1 : MonoBehaviour
 		}
 	}
 
-	public static void AddCoin()
-	{
-		collectedCoins++;
-		UpdateInventoryUI();
-	}
-
-	public static void AddKey()
-	{
-		collectedKeys++;
-		UpdateInventoryUI();
-	}
-
-	public static void AddBomb()
-	{
-		collectedBombs++;
-		UpdateInventoryUI();
-	}
-
-	private static void UpdateInventoryUI()
-	{
-		if (UIManager.instance != null)
-		{
-			UIManager.instance.UpdateUI(collectedCoins, collectedKeys, collectedBombs);
-		}
-	}
-
 	void Update()
 	{
+		// Movimiento solo con WASD y Stick Izquierdo
+		float moveX = Input.GetAxis("Horizontal"); // WASD / Stick Izquierdo
+		float moveZ = Input.GetAxis("Vertical");   // WASD / Stick Izquierdo
 
-		if (!(Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.DownArrow) || Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.RightArrow)))
-		{
-			horizontalMove = Input.GetAxisRaw("Horizontal"); // WASD / Stick Izquierdo
-			verticalMove = Input.GetAxisRaw("Vertical");   // WASD / Stick Izquierdo
-		}
-
-
-		playerInput = new Vector3(horizontalMove, 0, verticalMove);
+		playerInput = new Vector3(moveX, 0, moveZ);
 		playerInput = Vector3.ClampMagnitude(playerInput, 1);
 
-		// "Des-suavizar" el movimiento del jugador
 		if (playerInput.magnitude > 1) playerInput.Normalize();
 
 		camDirection();
 
 		movePlayer = playerInput.x * camRight + playerInput.z * camForward;
+		movePlayer *= playerSpeed;
 
-		movePlayer = movePlayer * playerSpeed;
-
-		Player.transform.LookAt(Player.transform.position + movePlayer);
+		if (movePlayer.magnitude > 0.1f)
+		{
+			Player.transform.LookAt(Player.transform.position + movePlayer);
+		}
 
 		SetGravity();
-
 		Player.Move(movePlayer * Time.deltaTime);
-
-		if (collectedPickUps != null)
-		{
-			collectedPickUps.text = "Coins: " + collectedCoins + "\nKeys: " + collectedKeys + "\nBombs: " + collectedBombs;
-		}
 	}
+
 	void camDirection()
 	{
 		camForward = mainCamera.transform.forward;
@@ -137,5 +116,31 @@ public class PlayerController1 : MonoBehaviour
 	{
 		mainCamera = cam;
 		Debug.Log("Cámara asignada al jugador");
+	}
+
+	public static void AddCoin()
+	{
+		collectedCoins++;
+		UpdateInventoryUI();
+	}
+
+	public static void AddKey()
+	{
+		collectedKeys++;
+		UpdateInventoryUI();
+	}
+
+	public static void AddBomb()
+	{
+		collectedBombs++;
+		UpdateInventoryUI();
+	}
+
+	private static void UpdateInventoryUI()
+	{
+		if (UIManager.instance != null)
+		{
+			UIManager.instance.UpdateUI(collectedCoins, collectedKeys, collectedBombs);
+		}
 	}
 }

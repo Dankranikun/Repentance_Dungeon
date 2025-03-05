@@ -1005,7 +1005,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &842436647
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2320,6 +2320,7 @@ GameObject:
   - component: {fileID: 1554941056}
   - component: {fileID: 1554941055}
   - component: {fileID: 1554941054}
+  - component: {fileID: 1554941057}
   m_Layer: 5
   m_Name: OptionsButton
   m_TagString: Untagged
@@ -2390,7 +2391,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1554941055}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1554941057}
+        m_TargetAssemblyTypeName: MainMenu, Assembly-CSharp
+        m_MethodName: ToggleFullScreen
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1554941055
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2429,6 +2442,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1554941052}
   m_CullTransparentMesh: 1
+--- !u!114 &1554941057
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1554941052}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4c665d942d7dd85439580c72b24625bd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1560582421
 GameObject:
   m_ObjectHideFlags: 0
@@ -2797,7 +2822,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: OPTIONS
+  m_text: 'TOGGLE
+
+    FULLSCREEN'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 0ad233fa2abf33e4ba00d4f54b2c0748, type: 2}
   m_sharedMaterial: {fileID: -6216090449563819411, guid: 0ad233fa2abf33e4ba00d4f54b2c0748, type: 2}
@@ -2824,8 +2851,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 69.69
-  m_fontSizeBase: 69.69
+  m_fontSize: 52
+  m_fontSizeBase: 52
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -2862,7 +2889,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 32.334602, z: 0, w: 0}
+  m_margin: {x: 0, y: 18.608475, z: 0, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -2891,7 +2918,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1754749839
 RectTransform:
   m_ObjectHideFlags: 0

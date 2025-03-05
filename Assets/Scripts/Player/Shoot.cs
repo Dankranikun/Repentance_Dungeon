@@ -12,7 +12,9 @@ public class Shoot : MonoBehaviour
 
 	void Update()
 	{
-		// Detectamos si el jugador está presionando alguna tecla de dirección
+		shootDirection = Vector3.zero; // Resetear dirección
+
+		// Flechas del teclado controlan el disparo
 		if (Input.GetKey(KeyCode.UpArrow))
 		{
 			shootDirection = Vector3.forward;
@@ -29,18 +31,15 @@ public class Shoot : MonoBehaviour
 		{
 			shootDirection = Vector3.right;
 		}
-		else
-		{
-			shootDirection = Vector3.zero; // Si no hay teclas presionadas, reseteamos
-		}
 
-		// Si se mantiene una tecla de disparo presionada y ha pasado el cooldown, dispara
+		// Solo dispara si hay una dirección y ha pasado el cooldown
 		if (shootDirection != Vector3.zero && Time.time >= nextShootTime)
 		{
 			Fire();
-			nextShootTime = Time.time + shootRate; // Establece el cooldown
+			nextShootTime = Time.time + shootRate;
 		}
 	}
+
 
 	// void Update()
 	// {
