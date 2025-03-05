@@ -1,0 +1,10 @@
+# ninja log v5
+30	1186	7628785082391802	GameActivity/CMakeFiles/game.dir/UGAEntry.cpp.o	9b3242024f00a1b2
+9	1191	7628785082412532	GameActivity/CMakeFiles/game.dir/UGAConfiguration.cpp.o	6766230c1fc1f491
+38	1225	7628785082737308	GameActivity/CMakeFiles/game.dir/UGAInputKeyEvent.cpp.o	f00091271f938206
+46	1230	7628785082792728	GameActivity/CMakeFiles/game.dir/UGAInputMotionEvent.cpp.o	d6e97a7e09182245
+54	1313	7628785083651449	GameActivity/CMakeFiles/game.dir/UGASoftKeyboard.cpp.o	37498281242cee96
+16	1377	7628785084340992	GameActivity/CMakeFiles/game.dir/UGADebug.cpp.o	e7afe0c947c4e61f
+23	1521	7628785085787278	GameActivity/CMakeFiles/game.dir/UGAInput.cpp.o	6f0aa087de790651
+1	1646	7628785087022223	GameActivity/CMakeFiles/game.dir/UGAApplication.cpp.o	fef304c9a038adc8
+1647	1778	7628785088417115	C:/Users/nicop/DesarrolloJuegos/RepentanceDungeon/Unity/Repentance_Dungeon/Library/Bee/Android/Prj/IL2CPP/Gradle/unityLibrary/build/intermediates/cxx/RelWithDebInfo/3g6l5a2s/obj/arm64-v8a/libgame.so	e77596ab710f166d

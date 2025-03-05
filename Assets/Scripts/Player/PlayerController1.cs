@@ -7,8 +7,8 @@ using TMPro;
 public class PlayerController1 : MonoBehaviour
 {
 	// Entrada del jugador (Player Input)
-	public float horizontalMove;
-	public float verticalMove;
+	public float horizontalMove = 0f;
+	public float verticalMove = 0f;
 	public Vector3 playerInput;
 
 	// Control del jugador (Player Control)
@@ -76,8 +76,13 @@ public class PlayerController1 : MonoBehaviour
 
 	void Update()
 	{
-		horizontalMove = Input.GetAxis("Horizontal");
-		verticalMove = Input.GetAxis("Vertical");
+
+		if (!(Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.DownArrow) || Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.RightArrow)))
+		{
+			horizontalMove = Input.GetAxisRaw("Horizontal"); // WASD / Stick Izquierdo
+			verticalMove = Input.GetAxisRaw("Vertical");   // WASD / Stick Izquierdo
+		}
+
 
 		playerInput = new Vector3(horizontalMove, 0, verticalMove);
 		playerInput = Vector3.ClampMagnitude(playerInput, 1);

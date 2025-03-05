@@ -42,6 +42,38 @@ public class Shoot : MonoBehaviour
 		}
 	}
 
+	// void Update()
+	// {
+	// 	// Detectamos si el jugador está presionando alguna tecla de dirección
+	// 	if (Input.GetKey(KeyCode.UpArrow))
+	// 	{
+	// 		shootDirection = Vector3.forward;
+	// 	}
+	// 	else if (Input.GetKey(KeyCode.DownArrow))
+	// 	{
+	// 		shootDirection = Vector3.back;
+	// 	}
+	// 	else if (Input.GetKey(KeyCode.LeftArrow))
+	// 	{
+	// 		shootDirection = Vector3.left;
+	// 	}
+	// 	else if (Input.GetKey(KeyCode.RightArrow))
+	// 	{
+	// 		shootDirection = Vector3.right;
+	// 	}
+	// 	else
+	// 	{
+	// 		shootDirection = Vector3.zero; // Si no hay teclas presionadas, reseteamos
+	// 	}
+
+	// 	// Si se mantiene una tecla de disparo presionada y ha pasado el cooldown, dispara
+	// 	if (shootDirection != Vector3.zero && Time.time >= nextShootTime)
+	// 	{
+	// 		Fire();
+	// 		nextShootTime = Time.time + shootRate; // Establece el cooldown
+	// 	}
+	// }
+
 	private void Fire()
 	{
 		// Instancia la flecha en la posición del spawnPoint
