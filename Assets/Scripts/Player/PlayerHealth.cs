@@ -11,7 +11,7 @@ public class PlayerHealth : MonoBehaviour
 
 	void Start()
 	{
-		health = 3;
+		health = 5;
 		animator = GetComponentInChildren<Animator>();
 		//animator = GetComponent<Animator>();
 	}

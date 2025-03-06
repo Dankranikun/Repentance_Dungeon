@@ -925,7 +925,7 @@ Transform:
   m_GameObject: {fileID: 3088745013046979769}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0.7071068, z: 0.7071068, w: 0}
-  m_LocalPosition: {x: 0.048504114, y: 1.1162608, z: 0.99662495}
+  m_LocalPosition: {x: 0.048504114, y: 1.1162608, z: 1.2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2001,7 +2001,7 @@ GameObject:
   - component: {fileID: 9000561483602311333}
   m_Layer: 0
   m_Name: PlayerAggro
-  m_TagString: Player
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2347,7 +2347,7 @@ GameObject:
   - component: {fileID: 762321567908914308}
   m_Layer: 0
   m_Name: RogueHooded
-  m_TagString: Player
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
