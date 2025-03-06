@@ -19,15 +19,15 @@ public class Shoot : MonoBehaviour
 		{
 			shootDirection = Vector3.forward;
 		}
-		else if (Input.GetKey(KeyCode.DownArrow))
+		if (Input.GetKey(KeyCode.DownArrow))
 		{
 			shootDirection = Vector3.back;
 		}
-		else if (Input.GetKey(KeyCode.LeftArrow))
+		if (Input.GetKey(KeyCode.LeftArrow))
 		{
 			shootDirection = Vector3.left;
 		}
-		else if (Input.GetKey(KeyCode.RightArrow))
+		if (Input.GetKey(KeyCode.RightArrow))
 		{
 			shootDirection = Vector3.right;
 		}
@@ -50,7 +50,7 @@ public class Shoot : MonoBehaviour
 		if (rb != null)
 		{
 			shootDirection.y = 0f; // Aseguramos que la flecha solo se mueva en XZ
-			rb.linearVelocity = shootDirection.normalized * shootForce; // Se usa linearVelocity en Unity 2023+
+			rb.linearVelocity = shootDirection.normalized * shootForce;
 			rb.useGravity = false; // Desactiva la gravedad en el Rigidbody
 		}
 

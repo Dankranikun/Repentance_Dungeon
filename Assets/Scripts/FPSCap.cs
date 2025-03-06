@@ -1,4 +1,3 @@
-using Unity.VisualScripting;
 using UnityEngine;
 
 [ExecuteInEditMode]
@@ -8,9 +7,7 @@ public class FPSCap : MonoBehaviour
 
 	private void Start()
 	{
-#if UNITY_EDITOR
-		QualitySettings.vSyncCount = 0;
-		Application.targetFrameRate = framerate;
-#endif
+		QualitySettings.vSyncCount = 0; // Desactiva VSync
+		Application.targetFrameRate = framerate; // Limita los FPS a 'framerate'
 	}
 }

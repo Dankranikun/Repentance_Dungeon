@@ -26,6 +26,7 @@ public class Door : MonoBehaviour
 			PlayerPrefs.SetFloat("SpawnX", spawnPosition.x);
 			PlayerPrefs.SetFloat("SpawnY", spawnPosition.y);
 			PlayerPrefs.SetFloat("SpawnZ", spawnPosition.z);
+			PlayerPrefs.Save(); // Asegura que la posición se guarde en la versión compilada
 
 			// Cargar la nueva sala
 			SceneManager.LoadScene(newRoom, LoadSceneMode.Additive);
@@ -38,26 +39,24 @@ public class Door : MonoBehaviour
 
 			// Actualizar la habitación actual
 			currentRoom = newRoom;
-			Debug.Log("🚪 Tocando la puerta: " + gameObject.name + " | Colisión con: " + other.name);
 
-			if (other.CompareTag("Player") && !isTransitioning)
-			{
-				Debug.Log("🔄 Iniciando teletransporte...");
-			}
+			Debug.Log("🚪 Tocando la puerta: " + gameObject.name + " | Colisión con: " + other.name);
+			Debug.Log("🔄 Iniciando teletransporte...");
 		}
 	}
 
 	// Nueva corrutina para mover al jugador después de cargar la sala
 	private System.Collections.IEnumerator SetPlayerPositionAfterLoad(GameObject player)
 	{
-		yield return new WaitForSeconds(0.01f); // Espera un poco para asegurarse de que la escena ha cargado
+		yield return new WaitUntil(() => SceneManager.GetSceneByName(currentRoom).isLoaded); // Espera a que la escena esté cargada
+		yield return new WaitForSeconds(0.1f); // Pequeña espera adicional
 
 		if (PlayerPrefs.HasKey("SpawnX"))
 		{
 			float x = PlayerPrefs.GetFloat("SpawnX");
 			float y = PlayerPrefs.GetFloat("SpawnY");
 			float z = PlayerPrefs.GetFloat("SpawnZ");
-			player.transform.position = new Vector3(x, y, z);
+
 			Debug.Log("📍 Posición antes del cambio: " + player.transform.position);
 			player.transform.position = new Vector3(x, y, z);
 			Debug.Log("📍 Nueva posición del jugador: " + player.transform.position);
@@ -66,14 +65,14 @@ public class Door : MonoBehaviour
 		{
 			Debug.LogWarning("⚠ No se encontró la posición guardada en PlayerPrefs.");
 		}
-		isTransitioning = false; // Permitir nuevas transiciones
 
+		isTransitioning = false; // Permitir nuevas transiciones
 	}
 
 	private System.Collections.IEnumerator UnloadPreviousRoom(string roomName)
 	{
-		yield return new WaitForSeconds(0.0001f); // Espera para evitar fallos de carga
+		yield return new WaitForSeconds(0.01f);
 		SceneManager.UnloadSceneAsync(roomName); // Descarga la habitación anterior
-		isTransitioning = false; // Permite nuevas transiciones
+		isTransitioning = false; // Permitir nuevas transiciones
 	}
 }

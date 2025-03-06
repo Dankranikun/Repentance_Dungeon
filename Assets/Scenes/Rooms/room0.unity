@@ -1707,6 +1707,14 @@ PrefabInstance:
       propertyPath: shootForce
       value: 50
       objectReference: {fileID: 0}
+    - target: {fileID: 8720582282186532921, guid: 1e3d88024555e8b4e84ad40034fa85f3, type: 3}
+      propertyPath: playerTransform
+      value: 
+      objectReference: {fileID: 1988142074}
+    - target: {fileID: 8720582282186532921, guid: 1e3d88024555e8b4e84ad40034fa85f3, type: 3}
+      propertyPath: playerController1
+      value: 
+      objectReference: {fileID: 1988142065}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1972,6 +1980,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0b8482fcf97300b4bb128c004bf914b7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!4 &1988142074 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3741752566702155572, guid: 1e3d88024555e8b4e84ad40034fa85f3, type: 3}
+  m_PrefabInstance: {fileID: 1677260167}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2072314558
 GameObject:
   m_ObjectHideFlags: 0
@@ -2223,7 +2236,7 @@ MonoBehaviour:
   m_BlockingObjects: 0
   m_BlockingMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 0
 --- !u!114 &2146999057
 MonoBehaviour:
   m_ObjectHideFlags: 0
