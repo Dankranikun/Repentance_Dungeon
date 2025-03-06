@@ -30,7 +30,6 @@ public class PlayerController1 : MonoBehaviour
 	public static int collectedBombs = 0;
 
 	// Joystick virtual
-	public Joystick joystick;
 
 	// Estadísticas del jugador
 	public float playerMovSpeed = 8f;

@@ -3,27 +3,39 @@ using UnityEngine.SceneManagement;
 
 public class GameOverManager : MonoBehaviour
 {
-	public GameObject gameOverMenu; // Asigna el GameOverMenu en el Inspector
-	public GameObject canvas; // Asigna el Canvas en el Inspector
+	public GameObject canvasGameOver; // Asigna el Canvas de Game Over en el Inspector
 
 	private void Start()
 	{
-		gameOverMenu.SetActive(false); // Asegura que el menú está oculto al inicio
+		if (canvasGameOver == null)
+		{
+			Debug.LogError("❌ CanvasGameOver no está asignado en el Inspector.");
+		}
+		else
+		{
+			canvasGameOver.SetActive(false); // Asegura que esté oculto al inicio
+		}
 	}
 
 	public void ShowGameOver()
 	{
-		// Desactiva todos los hijos de Canvas EXCEPTO GameOverMenu
-		foreach (Transform child in canvas.transform)
+		if (canvasGameOver == null)
 		{
-			if (child.gameObject != gameOverMenu)
-			{
-				child.gameObject.SetActive(false);
-			}
+			Debug.LogError("❌ CanvasGameOver no está asignado en el Inspector.");
+			return;
 		}
 
-		// Activa el menú de Game Over
-		gameOverMenu.SetActive(true);
+		Debug.Log("✅ Activando pantalla de Game Over...");
+		canvasGameOver.SetActive(true);
+
+		// 🔹 Asegurar que el Canvas es visible si tiene CanvasGroup
+		CanvasGroup cg = canvasGameOver.GetComponent<CanvasGroup>();
+		if (cg != null)
+		{
+			cg.alpha = 1;
+			cg.interactable = true;
+			cg.blocksRaycasts = true;
+		}
 	}
 
 	public void RestartGame()
@@ -33,7 +45,7 @@ public class GameOverManager : MonoBehaviour
 
 	public void GoToMainMenu()
 	{
-		SceneManager.LoadScene("MainMenu"); // Cambia a la escena del menú principal
+		SceneManager.LoadScene("MainMenu"); // Carga la escena del menú principal
 	}
 
 	public void QuitGame()
