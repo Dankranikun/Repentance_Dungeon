@@ -25,16 +25,17 @@ public class AIEnemy : MonoBehaviour
 
 	IEnumerator WaitForPlayer()
 	{
-		// Esperar hasta que GameManager tenga al Player
-		while (GameManager.Instance == null || GameManager.Instance.player == null)
+		// Esperar hasta que DungeonManager tenga al Player
+		while (DungeonManager.Instance == null || DungeonManager.Instance.GetPlayer() == null)
 		{
 			Debug.LogWarning("⏳ Esperando a que el jugador se genere...");
-			yield return null; // Esperar un frame
+			yield return new WaitForSeconds(0.1f); // Esperar 0.1 segundos
 		}
 
 		// Una vez que el jugador está disponible, asignarlo
-		player = GameManager.Instance.player.transform;
-		playerHealth = GameManager.Instance.player.GetComponent<PlayerHealth>();
+		GameObject playerObject = DungeonManager.Instance.GetPlayer();
+		player = playerObject.transform;
+		playerHealth = playerObject.GetComponent<PlayerHealth>();
 
 		if (playerHealth == null)
 		{
@@ -42,7 +43,7 @@ public class AIEnemy : MonoBehaviour
 		}
 		else
 		{
-			Debug.Log("✅ Jugador asignado correctamente.");
+			Debug.Log("✅ Jugador asignado correctamente al enemigo.");
 		}
 
 		// Asegurar que el NavMeshAgent tenga un destino válido

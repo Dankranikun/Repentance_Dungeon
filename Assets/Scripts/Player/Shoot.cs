@@ -5,34 +5,22 @@ public class Shoot : MonoBehaviour
 	public Transform spawnPoint; // Punto donde se generan las flechas
 	public GameObject projectile; // Prefab de la flecha
 
-	public float shootForce = 10f; // Fuerza del disparo
+	public float shootForce = 5.5f; // Fuerza del disparo
 	public float shootRate = 0.5f; // Tiempo entre disparos (cooldown)
 	private float nextShootTime = 0f; // Controla cuándo se puede disparar de nuevo
 	private Vector3 shootDirection = Vector3.zero; // Dirección del disparo
 
 	void Update()
 	{
-		shootDirection = Vector3.zero; // Resetear dirección
+		shootDirection = Vector3.zero;
 
-		// Flechas del teclado controlan el disparo
-		if (Input.GetKey(KeyCode.UpArrow))
-		{
-			shootDirection = Vector3.forward;
-		}
-		if (Input.GetKey(KeyCode.DownArrow))
-		{
-			shootDirection = Vector3.back;
-		}
-		if (Input.GetKey(KeyCode.LeftArrow))
-		{
-			shootDirection = Vector3.left;
-		}
-		if (Input.GetKey(KeyCode.RightArrow))
-		{
-			shootDirection = Vector3.right;
-		}
+		// Usar teclas diferentes para disparar (IJKL o las flechas)
+		if (Input.GetKey(KeyCode.UpArrow)) shootDirection = Vector3.forward;
+		if (Input.GetKey(KeyCode.DownArrow)) shootDirection = Vector3.back;
+		if (Input.GetKey(KeyCode.LeftArrow)) shootDirection = Vector3.left;
+		if (Input.GetKey(KeyCode.RightArrow)) shootDirection = Vector3.right;
 
-		// Solo dispara si hay una dirección y ha pasado el cooldown
+		// Solo dispara si hay dirección y ha pasado el cooldown
 		if (shootDirection != Vector3.zero && Time.time >= nextShootTime)
 		{
 			Fire();
@@ -51,6 +39,14 @@ public class Shoot : MonoBehaviour
 		{
 			shootDirection.y = 0f; // Aseguramos que la flecha solo se mueva en XZ
 			rb.linearVelocity = shootDirection.normalized * shootForce;
+			if (rb != null)
+			{
+				shootDirection.y = 0f;
+				rb.linearVelocity = shootDirection.normalized * shootForce;
+				rb.useGravity = false;
+
+				Debug.Log($"🏹 Velocidad aplicada: {rb.linearVelocity} | shootForce: {shootForce}");
+			}
 			rb.useGravity = false; // Desactiva la gravedad en el Rigidbody
 		}
 

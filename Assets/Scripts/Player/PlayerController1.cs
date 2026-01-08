@@ -13,7 +13,7 @@ public class PlayerController1 : MonoBehaviour
 
 	// Control del jugador (Player Control)
 	public CharacterController Player;
-	public float playerSpeed;
+	public float playerSpeed = 7.5f;
 	private Vector3 movePlayer;
 	public float gravity = 9.8f;
 	public float fallVelocity;
@@ -37,20 +37,17 @@ public class PlayerController1 : MonoBehaviour
 	void Start()
 	{
 		Player = GetComponent<CharacterController>();
+		playerSpeed = playerMovSpeed;
 
-		// Si hay datos guardados en PlayerPrefs, usa esa posición
-		if (PlayerPrefs.HasKey("SpawnX"))
+		// Buscar la cámara si no está asignada
+		if (mainCamera == null)
 		{
-			float x = PlayerPrefs.GetFloat("SpawnX");
-			float y = PlayerPrefs.GetFloat("SpawnY");
-			float z = PlayerPrefs.GetFloat("SpawnZ");
-			Player.GetComponent<Rigidbody>().MovePosition(new Vector3(x, y, z));
-
+			mainCamera = Camera.main;
+			Debug.Log("✅ Cámara encontrada y asignada");
 		}
 		else
 		{
-			// Si no hay datos guardados, inicia en el centro de la sala
-			transform.position = new Vector3(0, 1.171f, 0);
+			Debug.Log("⚠️ Cámara ya estaba asignada");
 		}
 
 		UpdateInventoryUI();
@@ -62,27 +59,44 @@ public class PlayerController1 : MonoBehaviour
 
 	void Update()
 	{
-		// Movimiento solo con WASD y Stick Izquierdo
-		float moveX = Input.GetAxis("Horizontal"); // WASD / Stick Izquierdo
-		float moveZ = Input.GetAxis("Vertical");   // WASD / Stick Izquierdo
+		float moveX = 0f;
+		float moveZ = 0f;
 
-		playerInput = new Vector3(moveX, 0, moveZ);
-		playerInput = Vector3.ClampMagnitude(playerInput, 1);
+		// Teclado (WASD)
+		if (Input.GetKey(KeyCode.W)) moveZ += 1f;
+		if (Input.GetKey(KeyCode.S)) moveZ -= 1f;
+		if (Input.GetKey(KeyCode.D)) moveX += 1f;
+		if (Input.GetKey(KeyCode.A)) moveX -= 1f;
 
-		if (playerInput.magnitude > 1) playerInput.Normalize();
+		// Mando / Joystick (sin smoothing)
+		// moveX += Input.GetAxisRaw("Horizontal");
+		// moveZ += Input.GetAxisRaw("Vertical");
 
-		camDirection();
-
-		movePlayer = playerInput.x * camRight + playerInput.z * camForward;
-		movePlayer *= playerSpeed;
-
-		if (movePlayer.magnitude > 0.1f)
+		// Limitar a magnitud máxima de 1
+		Vector3 moveDirection = new Vector3(moveX, 0, moveZ);
+		if (moveDirection.magnitude > 1f)
 		{
-			Player.transform.LookAt(Player.transform.position + movePlayer);
+			moveDirection = moveDirection.normalized;
 		}
 
-		SetGravity();
-		Player.Move(movePlayer * Time.deltaTime);
+		if (moveDirection.magnitude > 0.1f)
+		{
+			// Mover
+			Vector3 movement = moveDirection * playerSpeed * Time.deltaTime;
+			Player.Move(movement);
+
+			// Rotar hacia la dirección
+			Quaternion targetRotation = Quaternion.LookRotation(moveDirection);
+			transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, 10f * Time.deltaTime);
+		}
+
+		// AÑADIR ESTO: Detener velocidad del Rigidbody
+		Rigidbody rb = GetComponent<Rigidbody>();
+		if (rb != null)
+		{
+			rb.linearVelocity = Vector3.zero;
+			rb.angularVelocity = Vector3.zero;
+		}
 	}
 
 	void camDirection()

@@ -39,13 +39,14 @@ public class DungeonManager : MonoBehaviour
 		else
 		{
 			Destroy(gameObject);
+			return; // ← IMPORTANTE: añade este return
 		}
+
+		SetupCamera(); // ← Mover aquí desde Start()
 	}
 
 	private void Start()
 	{
-		SetupCamera();
-
 		// Generar la sala inicial (0,0)
 		GenerateRoom(Vector2Int.zero);
 
@@ -64,7 +65,12 @@ public class DungeonManager : MonoBehaviour
 		{
 			mainCamera.transform.position = cameraPosition;
 			mainCamera.transform.rotation = Quaternion.Euler(cameraRotation);
-			Debug.Log("✅ Cámara configurada correctamente.");
+
+			// Forzar actualización del transform
+			mainCamera.transform.hasChanged = true;
+			Physics.SyncTransforms();
+
+			Debug.Log($"✅ Cámara configurada. Rotation: {mainCamera.transform.rotation.eulerAngles}, Forward: {mainCamera.transform.forward}");
 		}
 		else
 		{
@@ -72,9 +78,6 @@ public class DungeonManager : MonoBehaviour
 		}
 	}
 
-	/// <summary>
-	/// Genera una sala en las coordenadas especificadas del grid
-	/// </summary>
 	public void GenerateRoom(Vector2Int coords)
 	{
 		// Si ya existe esta sala, no la generamos de nuevo
@@ -86,7 +89,7 @@ public class DungeonManager : MonoBehaviour
 		}
 
 		// Seleccionar un prefab aleatorio
-		RoomData randomRoomData = roomPrefabs[Random.Range(0, roomPrefabs.Length)];
+		RoomData randomRoomData = roomPrefabs[coords == Vector2Int.zero ? 0 : Random.Range(0, roomPrefabs.Length)];
 
 		// Calcular la posición en el mundo
 		Vector3 worldPosition = new Vector3(
@@ -107,9 +110,6 @@ public class DungeonManager : MonoBehaviour
 		Debug.Log($"🏠 Sala generada en {coords} | Posición: {worldPosition}");
 	}
 
-	/// <summary>
-	/// Genera la sala adyacente en la dirección especificada
-	/// </summary>
 	public Vector2Int GenerateAdjacentRoom(DoorDirection direction)
 	{
 		Vector2Int newCoords = currentRoomCoords;

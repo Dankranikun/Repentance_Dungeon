@@ -11,8 +11,7 @@ public class Arrow : MonoBehaviour
 
 			Debug.Log("Colisión con: " + other.gameObject.name + " | Tag: " + other.gameObject.tag);
 		}
-
 		// Destruir la flecha al chocar con cualquier objeto
-		Destroy(gameObject, 0.25f);
+		Destroy(gameObject, 0.29f);
 	}
 }

@@ -176,12 +176,12 @@ MonoBehaviour:
   verticalMove: 0
   playerInput: {x: 0, y: 0, z: 0}
   Player: {fileID: 0}
-  playerSpeed: 10
+  playerSpeed: 7.5
   gravity: 9.8
   fallVelocity: 0
   mainCamera: {fileID: 0}
   collectedPickUps: {fileID: 0}
-  playerMovSpeed: 8
+  playerMovSpeed: 7.5
 --- !u!114 &555398191842021010
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -268,10 +268,10 @@ Rigidbody:
     m_Bits: 0
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
-  m_UseGravity: 0
-  m_IsKinematic: 1
+  m_UseGravity: 1
+  m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 80
   m_CollisionDetection: 1
 --- !u!136 &5907648914044565755
 CapsuleCollider:

@@ -1,78 +1,116 @@
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class Door : MonoBehaviour
 {
-	public string[] possibleRooms = { "room0", "room1", "room2" }; // Salas disponibles
-	public Vector3 spawnPosition; // Posición donde aparecerá el jugador en la nueva sala
+	[Header("Door Configuration")]
+	public DoorDirection direction; // Norte, Sur, Este, Oeste
+	public Vector3 playerSpawnOffset = Vector3.zero; // Offset desde el centro de la sala
 
-	private static bool isTransitioning = false; // Evita múltiples activaciones
-	private static string currentRoom = "room0"; // Guarda la habitación actual
+	private bool isTransitioning = false;
 
 	private void OnTriggerEnter(Collider other)
 	{
 		if (other.CompareTag("Player") && !isTransitioning)
 		{
-			isTransitioning = true; // Bloquea nuevas activaciones
-
-			// Elegir una sala aleatoria distinta a la actual
-			string newRoom;
-			do
-			{
-				newRoom = possibleRooms[Random.Range(0, possibleRooms.Length)];
-			} while (newRoom == currentRoom);
-
-			// Guardar la posición del jugador antes de cambiar de sala
-			PlayerPrefs.SetFloat("SpawnX", spawnPosition.x);
-			PlayerPrefs.SetFloat("SpawnY", spawnPosition.y);
-			PlayerPrefs.SetFloat("SpawnZ", spawnPosition.z);
-			PlayerPrefs.Save(); // Asegura que la posición se guarde en la versión compilada
-
-			// Cargar la nueva sala
-			SceneManager.LoadScene(newRoom, LoadSceneMode.Additive);
-
-			// Mover al jugador a la nueva posición justo después de cargar
-			StartCoroutine(SetPlayerPositionAfterLoad(other.gameObject));
-
-			// Iniciar una corrutina para descargar la habitación anterior
-			StartCoroutine(UnloadPreviousRoom(currentRoom));
-
-			// Actualizar la habitación actual
-			currentRoom = newRoom;
-
-			Debug.Log("🚪 Tocando la puerta: " + gameObject.name + " | Colisión con: " + other.name);
-			Debug.Log("🔄 Iniciando teletransporte...");
+			StartCoroutine(TransitionToRoom(other.gameObject));
 		}
 	}
 
-	// Nueva corrutina para mover al jugador después de cargar la sala
-	private System.Collections.IEnumerator SetPlayerPositionAfterLoad(GameObject player)
+	private System.Collections.IEnumerator TransitionToRoom(GameObject player)
 	{
-		yield return new WaitUntil(() => SceneManager.GetSceneByName(currentRoom).isLoaded); // Espera a que la escena esté cargada
-		yield return new WaitForSeconds(0.1f); // Pequeña espera adicional
+		isTransitioning = true;
 
-		if (PlayerPrefs.HasKey("SpawnX"))
+		Debug.Log($"🚪 Usando puerta {direction}");
+
+		// Generar la sala adyacente
+		Vector2Int newRoomCoords = DungeonManager.Instance.GenerateAdjacentRoom(direction);
+
+		// Esperar un frame para asegurar que la sala se ha instanciado
+		yield return null;
+
+		// Calcular la nueva posición del jugador
+		Vector3 newRoomWorldPos = DungeonManager.Instance.GetWorldPosition(newRoomCoords);
+		Vector3 spawnOffset = GetSpawnOffsetForDirection();
+		Vector3 newPlayerPosition = newRoomWorldPos + spawnOffset + playerSpawnOffset;
+
+		// Mover al jugador
+		CharacterController controller = player.GetComponent<CharacterController>();
+		if (controller != null)
 		{
-			float x = PlayerPrefs.GetFloat("SpawnX");
-			float y = PlayerPrefs.GetFloat("SpawnY");
-			float z = PlayerPrefs.GetFloat("SpawnZ");
-
-			Debug.Log("📍 Posición antes del cambio: " + player.transform.position);
-			player.transform.position = new Vector3(x, y, z);
-			Debug.Log("📍 Nueva posición del jugador: " + player.transform.position);
+			// Si usa CharacterController, desactivarlo temporalmente
+			controller.enabled = false;
+			player.transform.position = newPlayerPosition;
+			controller.enabled = true;
 		}
 		else
 		{
-			Debug.LogWarning("⚠ No se encontró la posición guardada en PlayerPrefs.");
+			// Si no, mover directamente
+			player.transform.position = newPlayerPosition;
 		}
 
-		isTransitioning = false; // Permitir nuevas transiciones
+		Debug.Log($"📍 Jugador movido a: {newPlayerPosition}");
+
+		// Mover la cámara si es necesario
+		Camera mainCamera = Camera.main;
+		if (mainCamera != null)
+		{
+			mainCamera.transform.position = new Vector3(
+				newRoomWorldPos.x,
+				mainCamera.transform.position.y,
+				newRoomWorldPos.z
+			);
+		}
+
+		yield return new WaitForSeconds(0.3f);
+		isTransitioning = false;
 	}
 
-	private System.Collections.IEnumerator UnloadPreviousRoom(string roomName)
+	/// <summary>
+	/// Devuelve el offset de spawn según la dirección de la puerta
+	/// (Jugador aparece en el lado opuesto de la nueva sala)
+	/// </summary>
+	private Vector3 GetSpawnOffsetForDirection()
 	{
-		yield return new WaitForSeconds(0.01f);
-		SceneManager.UnloadSceneAsync(roomName); // Descarga la habitación anterior
-		isTransitioning = false; // Permitir nuevas transiciones
+		float distance = 8f; // Distancia desde el centro
+
+		switch (direction)
+		{
+			case DoorDirection.North:
+				return new Vector3(0, 0, -distance); // Entra por el sur
+			case DoorDirection.South:
+				return new Vector3(0, 0, distance); // Entra por el norte
+			case DoorDirection.East:
+				return new Vector3(-distance, 0, 0); // Entra por el oeste
+			case DoorDirection.West:
+				return new Vector3(distance, 0, 0); // Entra por el este
+			default:
+				return Vector3.zero;
+		}
+	}
+
+	// Visualización en el editor
+	private void OnDrawGizmos()
+	{
+		Gizmos.color = Color.cyan;
+		Vector3 arrowDirection = Vector3.zero;
+
+		switch (direction)
+		{
+			case DoorDirection.North:
+				arrowDirection = Vector3.forward;
+				break;
+			case DoorDirection.South:
+				arrowDirection = Vector3.back;
+				break;
+			case DoorDirection.East:
+				arrowDirection = Vector3.right;
+				break;
+			case DoorDirection.West:
+				arrowDirection = Vector3.left;
+				break;
+		}
+
+		Gizmos.DrawRay(transform.position, arrowDirection * 2f);
+		Gizmos.DrawSphere(transform.position + arrowDirection * 2f, 0.3f);
 	}
 }

@@ -32,7 +32,7 @@ public class PlayerManager : MonoBehaviour
             PlayerController1 playerController = FindFirstObjectByType<PlayerController1>();
             if (playerController != null)
             {
-                playerController.SetCamera(mainCamera);
+                // playerController.SetCamera(mainCamera); // ← ELIMINA o comenta esta línea
             }
             else
             {
@@ -51,7 +51,6 @@ public class PlayerManager : MonoBehaviour
         float x = PlayerPrefs.GetFloat("SpawnX", transform.position.x);
         float y = PlayerPrefs.GetFloat("SpawnY", transform.position.y);
         float z = PlayerPrefs.GetFloat("SpawnZ", transform.position.z);
-
         transform.position = new Vector3(x, y, z);
     }
 }

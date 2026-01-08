@@ -6,23 +6,16 @@ public class MainMenu : MonoBehaviour
 {
 	public void StartGame()
 	{
-		// Cargar GameManagerScene si no está ya cargada
-		if (!SceneManager.GetSceneByName("GameManagerScene").isLoaded)
-		{
-			SceneManager.LoadScene("GameManagerScene", LoadSceneMode.Additive);
-		}
-
-		// Cargar la primera sala
-		SceneManager.LoadScene("room0", LoadSceneMode.Additive);
-
-		// Asegurar que MainMenu se elimina completamente
-		StartCoroutine(UnloadMainMenu());
+		StartCoroutine(LoadGameScenes());
 	}
 
-	IEnumerator UnloadMainMenu()
+	IEnumerator LoadGameScenes()
 	{
-		yield return new WaitForSeconds(0.5f); // Pequeña espera para asegurar que las nuevas escenas cargan primero
-		SceneManager.UnloadSceneAsync("MainMenu");
+		// Cargar GameManagerScene (LoadSceneMode.Single descarga MainMenu automáticamente)
+		AsyncOperation gameManagerLoad = SceneManager.LoadSceneAsync("GameManagerScene", LoadSceneMode.Single);
+		yield return gameManagerLoad;
+
+		Debug.Log("🎮 Juego cargado correctamente");
 	}
 
 	public void CloseGame()
